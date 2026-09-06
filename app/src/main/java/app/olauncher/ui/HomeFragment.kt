@@ -258,7 +258,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun setHomeAlignment(horizontalGravity: Int = prefs.homeAlignment) {
         val verticalGravity = if (prefs.homeBottomAlignment) Gravity.BOTTOM else Gravity.CENTER_VERTICAL
-        (binding.homeAppsLayout as? android.widget.GridLayout)?.gravity = horizontalGravity or verticalGravity
+        // GridLayout does not expose gravity; individual cells handle alignment.
         binding.dateTimeLayout.gravity = horizontalGravity
     }
 
