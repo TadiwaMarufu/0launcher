@@ -374,7 +374,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun setHomeAppText(
-        container: FrameLayout,
+        container: View,
         appName: String,
         packageName: String,
         userString: String,
@@ -414,33 +414,43 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
         }
 
         return try {
-            val icon = if (isShortcut && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                try {
-                    val launcherApps =
-                        requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+            val icon: android.graphics.drawable.Drawable? =
+                if (isShortcut && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    try {
+                        val launcherApps =
+                            requireContext().getSystemService(
+                                Context.LAUNCHER_APPS_SERVICE
+                            ) as LauncherApps
 
-                    val query = LauncherApps.ShortcutQuery().apply {
-                        setPackage(packageName)
-                        setQueryFlags(LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
+                        val query = LauncherApps.ShortcutQuery().apply {
+                            setPackage(packageName)
+                            setQueryFlags(LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
+                        }
+
+                        val shortcut = launcherApps.getShortcuts(query, userHandle)
+                            ?.firstOrNull { it.id == shortcutId }
+
+                        if (shortcut != null) {
+                            launcherApps.getShortcutIconDrawable(
+                                shortcut,
+                                resources.displayMetrics.densityDpi
+                            )
+                        } else {
+                            null
+                        }
+                    } catch (_: Exception) {
+                        null
                     }
-
-                    val shortcut = launcherApps.getShortcuts(query, userHandle)
-                        ?.firstOrNull { it.id == shortcutId }
-
-                    shortcut?.icon?.let {
-                        launcherApps.getShortcutIconDrawable(
-                            shortcut,
-                            resources.displayMetrics.densityDpi
-                        )
-                    }
-                } catch (_: Exception) {
+                } else {
                     null
                 }
-            } else {
-                null
-            } ?: requireContext().packageManager.getApplicationIcon(packageName)
 
-            container.removeAllViews()
+            val resolvedIcon = icon
+                ?: requireContext().packageManager.getApplicationIcon(packageName)
+
+            val frame = container as? FrameLayout ?: return false
+
+            frame.removeAllViews()
 
             val imageView = ImageView(requireContext()).apply {
                 layoutParams = FrameLayout.LayoutParams(
@@ -448,7 +458,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
                     58.dpToPx(),
                     Gravity.CENTER
                 )
-                setImageDrawable(icon)
+                setImageDrawable(resolvedIcon)
                 scaleType = ImageView.ScaleType.FIT_CENTER
                 contentDescription = appName
                 isClickable = false
@@ -458,7 +468,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
                 scaleY = 0.82f
             }
 
-            container.addView(imageView)
+            frame.addView(imageView)
 
             imageView.animate()
                 .alpha(1f)
@@ -468,6 +478,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
                 .start()
 
             true
+
         } catch (e: Exception) {
             container.removeAllViews()
             false
