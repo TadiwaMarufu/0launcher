@@ -384,7 +384,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
         val userHandle = getUserHandleFromString(requireContext(), userString)
 
         if (appName.isEmpty() || packageName.isEmpty()) {
-            container.removeAllViews()
+            (container as? android.view.ViewGroup)?.removeAllViews()
             return false
         }
 
@@ -401,15 +401,15 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
                 val shortcuts = launcherApps.getShortcuts(query, userHandle)
 
                 if (shortcuts?.any { it.id == shortcutId } != true) {
-                    container.removeAllViews()
+                    (container as? android.view.ViewGroup)?.removeAllViews()
                     return false
                 }
             } catch (e: Exception) {
-                container.removeAllViews()
+                (container as? android.view.ViewGroup)?.removeAllViews()
                 return false
             }
         } else if (!isPackageInstalled(requireContext(), packageName, userString)) {
-            container.removeAllViews()
+            (container as? android.view.ViewGroup)?.removeAllViews()
             return false
         }
 
@@ -480,7 +480,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
             true
 
         } catch (e: Exception) {
-            container.removeAllViews()
+            (container as? android.view.ViewGroup)?.removeAllViews()
             false
         }
     }
