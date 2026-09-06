@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -259,14 +260,6 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
         val verticalGravity = if (prefs.homeBottomAlignment) Gravity.BOTTOM else Gravity.CENTER_VERTICAL
         binding.homeAppsLayout.gravity = horizontalGravity or verticalGravity
         binding.dateTimeLayout.gravity = horizontalGravity
-        binding.homeApp1.gravity = horizontalGravity
-        binding.homeApp2.gravity = horizontalGravity
-        binding.homeApp3.gravity = horizontalGravity
-        binding.homeApp4.gravity = horizontalGravity
-        binding.homeApp5.gravity = horizontalGravity
-        binding.homeApp6.gravity = horizontalGravity
-        binding.homeApp7.gravity = horizontalGravity
-        binding.homeApp8.gravity = horizontalGravity
     }
 
     private fun populateDateTime() {
@@ -381,21 +374,24 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun setHomeAppText(
-        textView: TextView,
+        container: FrameLayout,
         appName: String,
         packageName: String,
         userString: String,
         isShortcut: Boolean,
         shortcutId: String?,
     ): Boolean {
-        // Get user handle for the app/shortcut
         val userHandle = getUserHandleFromString(requireContext(), userString)
 
-        // If it's a shortcut, verify it still exists
-        if (isShortcut) {
-            val launcherApps = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+        if (appName.isEmpty() || packageName.isEmpty()) {
+            container.removeAllViews()
+            return false
+        }
 
-            // Query for the specific shortcut
+        if (isShortcut) {
+            val launcherApps =
+                requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+
             val query = LauncherApps.ShortcutQuery().apply {
                 setPackage(packageName)
                 setQueryFlags(LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
@@ -403,27 +399,79 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
 
             try {
                 val shortcuts = launcherApps.getShortcuts(query, userHandle)
-                // Check if our shortcut still exists
-                if (shortcuts?.any { it.id == shortcutId } == true) {
-                    textView.text = appName
-                    return true
+
+                if (shortcuts?.any { it.id == shortcutId } != true) {
+                    container.removeAllViews()
+                    return false
                 }
-                textView.text = ""
-                return false
             } catch (e: Exception) {
-                e.printStackTrace()
-                textView.text = ""
+                container.removeAllViews()
                 return false
             }
+        } else if (!isPackageInstalled(requireContext(), packageName, userString)) {
+            container.removeAllViews()
+            return false
         }
 
-        // Regular app check
-        if (isPackageInstalled(requireContext(), packageName, userString)) {
-            textView.text = appName
-            return true
+        return try {
+            val icon = if (isShortcut && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                try {
+                    val launcherApps =
+                        requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+
+                    val query = LauncherApps.ShortcutQuery().apply {
+                        setPackage(packageName)
+                        setQueryFlags(LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
+                    }
+
+                    val shortcut = launcherApps.getShortcuts(query, userHandle)
+                        ?.firstOrNull { it.id == shortcutId }
+
+                    shortcut?.icon?.let {
+                        launcherApps.getShortcutIconDrawable(
+                            shortcut,
+                            resources.displayMetrics.densityDpi
+                        )
+                    }
+                } catch (_: Exception) {
+                    null
+                }
+            } else {
+                null
+            } ?: requireContext().packageManager.getApplicationIcon(packageName)
+
+            container.removeAllViews()
+
+            val imageView = ImageView(requireContext()).apply {
+                layoutParams = FrameLayout.LayoutParams(
+                    58.dpToPx(),
+                    58.dpToPx(),
+                    Gravity.CENTER
+                )
+                setImageDrawable(icon)
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                contentDescription = appName
+                isClickable = false
+                isFocusable = false
+                alpha = 0f
+                scaleX = 0.82f
+                scaleY = 0.82f
+            }
+
+            container.addView(imageView)
+
+            imageView.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(220)
+                .start()
+
+            true
+        } catch (e: Exception) {
+            container.removeAllViews()
+            false
         }
-        textView.text = ""
-        return false
     }
 
     private fun hideHomeApps() {

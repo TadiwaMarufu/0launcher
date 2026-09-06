@@ -1,210 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:orientation="vertical"
-    tools:context=".ui.HomeFragment">
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:animateLayoutChanges="true">
 
-    <!-- Placeholder layout for locking screen-->
     <FrameLayout
         android:id="@+id/lock"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:contentDescription="@string/lock_layout_description" />
+        android:layout_gravity="top" />
 
-    <!-- Home button for recents feature disabled -->
-    <!-- Placeholder layout for showing recent apps
-    <FrameLayout
-        android:id="@+id/recents"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:contentDescription="@string/recents_layout_description" /> -->
-
-    <!-- Clock and calendar-->
+    <!-- Optional clock / date -->
     <LinearLayout
         android:id="@+id/dateTimeLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="56dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
         android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:gravity="start"
+        android:visibility="gone">
 
         <TextClock
             android:id="@+id/clock"
             style="@style/TextDefault"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
             android:format12Hour="h:mm"
-            android:textSize="@dimen/time_size"
-            tools:text="02:34" />
+            android:format24Hour="HH:mm"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/time_size" />
 
         <TextView
             android:id="@+id/date"
             style="@style/TextDefault"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:format12Hour="EEE, dd MMM"
-            android:format24Hour="EEE, dd MMM"
-            android:paddingHorizontal="3dp"
-            android:textSize="@dimen/date_size"
-            tools:text="Thu, 30 Dec" />
+            android:includeFontPadding="false"
+            android:textSize="@dimen/date_size" />
+
     </LinearLayout>
 
-    <!-- Screen time-->
+    <!-- Screen time -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvScreenTime"
-        style="@style/TextSmall"
+        style="@style/TextDefault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="72dp"
-        android:gravity="center"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="20dp"
         android:padding="10dp"
-        android:textSize="@dimen/date_size"
-        android:visibility="gone"
-        tools:text="2h 11m"
-        tools:visibility="visible" />
+        android:visibility="gone" />
 
-    <!-- Home apps-->
-    <LinearLayout
+    <!-- Main icon grid -->
+    <GridLayout
         android:id="@+id/homeAppsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="112dp"
-        android:paddingBottom="48dp">
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="118dp"
+        android:columnCount="4"
+        android:rowCount="2"
+        android:alignmentMode="alignMargins"
+        android:useDefaultMargins="false"
+        android:gravity="center"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
-        <TextView
+        <FrameLayout
             android:id="@+id/homeApp1"
-            style="@style/TextLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:hint="@string/app"
-            android:paddingVertical="@dimen/home_app_padding_vertical"
-            android:tag="@string/tag_1"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
-        <TextView
+        <FrameLayout
             android:id="@+id/homeApp2"
-            style="@style/TextLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:hint="@string/app"
-            android:paddingVertical="@dimen/home_app_padding_vertical"
-            android:tag="@string/tag_2"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
-        <TextView
+        <FrameLayout
             android:id="@+id/homeApp3"
-            style="@style/TextLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:hint="@string/app"
-            android:paddingVertical="@dimen/home_app_padding_vertical"
-            android:tag="@string/tag_3"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
-        <TextView
+        <FrameLayout
             android:id="@+id/homeApp4"
-            style="@style/TextLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:hint="@string/app"
-            android:paddingVertical="@dimen/home_app_padding_vertical"
-            android:tag="@string/tag_4"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
-        <TextView
+        <FrameLayout
             android:id="@+id/homeApp5"
-            style="@style/TextLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:hint="@string/app"
-            android:paddingVertical="@dimen/home_app_padding_vertical"
-            android:tag="@string/tag_5"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
-        <TextView
+        <FrameLayout
             android:id="@+id/homeApp6"
-            style="@style/TextLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:hint="@string/app"
-            android:paddingVertical="@dimen/home_app_padding_vertical"
-            android:tag="@string/tag_6"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
-        <TextView
+        <FrameLayout
             android:id="@+id/homeApp7"
-            style="@style/TextLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:hint="@string/app"
-            android:paddingVertical="@dimen/home_app_padding_vertical"
-            android:tag="@string/tag_7"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
-        <TextView
+        <FrameLayout
             android:id="@+id/homeApp8"
-            style="@style/TextLarge"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_row="1"
+            android:layout_column="3"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
+
+    </GridLayout>
+
+    <!-- NOW BAR -->
+    <LinearLayout
+        android:id="@+id/nowBar"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_now_bar"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/nowBarIcon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/nowBarTextContainer"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:hint="@string/app"
-            android:paddingVertical="@dimen/home_app_padding_vertical"
-            android:tag="@string/tag_8"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nowBarTitle"
+                style="@style/TextDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Nothing happening"
+                android:textSize="14sp"
+                android:alpha="0.9" />
+
+            <TextView
+                android:id="@+id/nowBarSubtitle"
+                style="@style/TextDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="12sp"
+                android:alpha="0.55"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/nowBarAction"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:contentDescription="@null"
+            android:visibility="gone" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/firstRunTips"
-        style="@style/TextSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="56dp"
-        android:text="@string/swipe_up_for_apps"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
-    <!-- Set default launcher -->
-    <TextView
-        android:id="@+id/setDefaultLauncher"
-        style="@style/TextMedium"
+        style="@style/TextDefault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="56dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="@string/set_as_default_launcher_u"
+        android:layout_marginBottom="108dp"
         android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/setDefaultLauncher"
+        style="@style/TextDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="100dp"
+        android:visibility="gone" />
+
 </FrameLayout>
