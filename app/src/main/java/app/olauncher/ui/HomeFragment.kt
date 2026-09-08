@@ -97,9 +97,18 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
             R.id.setDefaultLauncher -> viewModel.resetLauncherLiveData.call()
             R.id.tvScreenTime -> openScreenTimeDigitalWellbeing()
 
+            R.id.homeApp1 -> homeAppClicked(1)
+            R.id.homeApp2 -> homeAppClicked(2)
+            R.id.homeApp3 -> homeAppClicked(3)
+            R.id.homeApp4 -> homeAppClicked(4)
+            R.id.homeApp5 -> homeAppClicked(5)
+            R.id.homeApp6 -> homeAppClicked(6)
+            R.id.homeApp7 -> homeAppClicked(7)
+            R.id.homeApp8 -> homeAppClicked(8)
+
             else -> {
                 try { // Launch app
-                    val appLocation = view.tag.toString().toInt()
+                    val appLocation = view.tag?.toString()?.toIntOrNull() ?: return
                     homeAppClicked(appLocation)
                 } catch (e: Exception) {
                     e.printStackTrace()
