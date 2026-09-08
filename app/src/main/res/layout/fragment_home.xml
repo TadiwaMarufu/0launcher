@@ -77,7 +77,7 @@
         android:clipToPadding="false">
 
         <FrameLayout
-            android:visibility="gone"            android:id="@+id/homeApp1"
+            android:id="@+id/homeApp1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="0"
@@ -85,10 +85,12 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
+            android:tag="@string/tag_1"
+            android:visibility="gone"
             android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
         <FrameLayout
-            android:visibility="gone"            android:id="@+id/homeApp2"
+            android:id="@+id/homeApp2"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="0"
@@ -96,10 +98,12 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
+            android:tag="@string/tag_2"
+            android:visibility="gone"
             android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
         <FrameLayout
-            android:visibility="gone"            android:id="@+id/homeApp3"
+            android:id="@+id/homeApp3"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="0"
@@ -107,10 +111,12 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
+            android:tag="@string/tag_3"
+            android:visibility="gone"
             android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
         <FrameLayout
-            android:visibility="gone"            android:id="@+id/homeApp4"
+            android:id="@+id/homeApp4"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="0"
@@ -118,10 +124,12 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
+            android:tag="@string/tag_4"
+            android:visibility="gone"
             android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
         <FrameLayout
-            android:visibility="gone"            android:id="@+id/homeApp5"
+            android:id="@+id/homeApp5"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="1"
@@ -129,10 +137,12 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
+            android:tag="@string/tag_5"
+            android:visibility="gone"
             android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
         <FrameLayout
-            android:visibility="gone"            android:id="@+id/homeApp6"
+            android:id="@+id/homeApp6"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="1"
@@ -140,10 +150,12 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
+            android:tag="@string/tag_6"
+            android:visibility="gone"
             android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
         <FrameLayout
-            android:visibility="gone"            android:id="@+id/homeApp7"
+            android:id="@+id/homeApp7"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="1"
@@ -151,10 +163,12 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
+            android:tag="@string/tag_7"
+            android:visibility="gone"
             android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
         <FrameLayout
-            android:visibility="gone"            android:id="@+id/homeApp8"
+            android:id="@+id/homeApp8"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="1"
@@ -162,6 +176,8 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
+            android:tag="@string/tag_8"
+            android:visibility="gone"
             android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
     </GridLayout>
